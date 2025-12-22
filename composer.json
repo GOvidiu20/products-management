@@ -1,0 +1,15 @@
+{
+  "name": "app/php-project",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "ext-pdo": "*",
+    "helsingborg-stad/blade": "^3.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/",
+      "App\\Controllers\\": "src/Controller/"
+    }
+  }
+}
