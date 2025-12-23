@@ -6,15 +6,15 @@ use App\Helpers\RequestHelper;
 use App\Model\Product;
 use HelsingborgStad\GlobalBladeService\GlobalBladeService;
 
-class ProductController extends RequestHelper
+class ProductController
 {
     private Product $productModel;
+    private RequestHelper $requestHelper;
 
-    public function __construct(
-        Product $productModel
-    )
+    public function __construct(Product $productModel, RequestHelper $requestHelper)
     {
         $this->productModel = $productModel;
+        $this->requestHelper = $requestHelper;
     }
 
     public function index(): void
@@ -60,13 +60,13 @@ class ProductController extends RequestHelper
     public function store(): void
     {
         try {
-            $this->productValidation();
+            $errors = $this->requestHelper->productValidation();
 
-            if (! empty($this->errors)) {
-                throw new \Exception('Validation failed: ' . implode(', ', $this->errors));
+            if (! empty($errors)) {
+                throw new \Exception(implode(', ', $errors));
             }
 
-            $data = $this->requestProductFields();
+            $data = $this->requestHelper->requestProductFields();
 
             $this->productModel->create($data);
 
@@ -80,13 +80,13 @@ class ProductController extends RequestHelper
     public function update(int $productId = null): void
     {
         try {
-            $this->productValidation();
+            $errors = $this->requestHelper->productValidation();
 
-            if (! empty($this->errors)) {
-                throw new \Exception(implode(', ', $this->errors));
+            if (! empty($errors)) {
+                throw new \Exception(implode(', ', $errors));
             }
 
-            $data = $this->requestProductFields();
+            $data = $this->requestHelper->requestProductFields();
 
             $this->productModel->update($productId, $data);
 

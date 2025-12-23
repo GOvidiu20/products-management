@@ -21,9 +21,13 @@ function save(productId) {
     if(availabilityDate !== '')
         formData.append('availability_date', availabilityDate);
 
-    const imageInput = document.getElementById('image');
+    const imageInput    = document.getElementById('image');
+    const existingImage = document.getElementById('existing_image');
+
     if (imageInput.files.length > 0) {
         formData.append('image_path', imageInput.files[0].name);
+    } else if (existingImage) {
+        formData.append('image_path', existingImage.value);
     }
 
     const url = productId

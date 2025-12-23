@@ -35,6 +35,7 @@
                 <div class="image-preview">
                     <img src="/products/<?php echo e($product['image_path']); ?>" alt="Product Image" style="max-width:150px; display:block; margin-bottom:10px;">
                 </div>
+                <input type="hidden" id="existing_image" value="<?php echo e($product['image_path']); ?>">
             <?php endif; ?>
 
             <input type="file" id="image" accept="image/*">

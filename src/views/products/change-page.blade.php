@@ -36,6 +36,7 @@
                 <div class="image-preview">
                     <img src="/products/{{ $product['image_path'] }}" alt="Product Image" style="max-width:150px; display:block; margin-bottom:10px;">
                 </div>
+                <input type="hidden" id="existing_image" value="{{ $product['image_path'] }}">
             @endif
 
             <input type="file" id="image" accept="image/*">

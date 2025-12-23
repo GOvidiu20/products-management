@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\ProductController;
+use App\Helpers\RequestHelper;
 use App\Model\Product;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -10,13 +11,14 @@ $path = trim(
     '/'
 );
 
-$productModel = new Product();
-$controller = new ProductController($productModel);
+$productModel  = new Product();
+$requestHelper = new RequestHelper();
+$controller    = new ProductController($productModel, $requestHelper);
 
 $routes = [
     '#^$#' => fn() => $controller->index(),
 
-    '#^create#' => fn() => $controller->change(),
+    '#^create$#' => fn() => $controller->change(),
 
     '#^(\d+)/change$#' => fn($id) => $controller->change((int) $id),
 
@@ -30,7 +32,7 @@ $routes = [
 foreach ($routes as $pattern => $handler) {
     if (preg_match($pattern, $path, $matches)) {
         array_shift($matches);
-       $handler(...$matches);
+        $handler(...$matches);
 
         exit;
     }

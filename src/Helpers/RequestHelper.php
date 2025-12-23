@@ -6,7 +6,7 @@ class RequestHelper
 {
     protected array $errors = [];
 
-    public function productValidation(): void
+    public function productValidation(): array
     {
         $name        = $_POST['name'];
         $price       = $_POST['price'];
@@ -27,6 +27,8 @@ class RequestHelper
         if (strlen($description) > 1000) {
             $this->errors['description'] = 'Description must not exceed 1000 characters.';
         }
+
+        return $this->errors;
     }
 
     function requestProductFields(): array
