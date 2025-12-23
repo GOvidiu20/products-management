@@ -63,6 +63,14 @@ main {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
+    text-align: left;
+    align-items: center;
+}
+
+.table-image {
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }
 
 .container {

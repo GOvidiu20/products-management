@@ -43,12 +43,14 @@
         <tbody>
         @foreach ($products as $product)
             <tr>
-                <td class="image-link-cell">
-                    <img
-                        src="/products/{{ $product['image_path'] ?? 'default.jpg' }}"
-                        alt="Product Image"
-                        style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
-                    >
+                <td>
+                    <div class="table-image">
+                        <img
+                            src="/products/{{ $product['image_path'] ?? 'default.jpg' }}"
+                            alt="Product Image"
+                            style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
+                        >
+                    </div>
                     <a href={{"/". $product['id'] . "/change"}}>{{ $product['name'] }}
                 </td>
                 <td>{{ $product['description'] }}</td>

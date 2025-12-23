@@ -2,10 +2,11 @@
 
 namespace App\Controllers;
 
+use App\Helpers\RequestHelper;
 use App\Model\Product;
 use HelsingborgStad\GlobalBladeService\GlobalBladeService;
 
-class ProductController
+class ProductController extends RequestHelper
 {
     private Product $productModel;
 
@@ -59,14 +60,13 @@ class ProductController
     public function store(): void
     {
         try {
-            $data = [
-                'name'              => $_POST['name'],
-                'price'             => $_POST['price'],
-                'availability_date' => $_POST['availability_date'] ?? null,
-                'description'       => $_POST['description'],
-                'image_path'        => $_POST['image_path'] ?? null,
-                'in_stock'          => $_POST['in_stock'],
-            ];
+            $this->productValidation();
+
+            if (! empty($this->errors)) {
+                throw new \Exception('Validation failed: ' . implode(', ', $this->errors));
+            }
+
+            $data = $this->requestProductFields();
 
             $this->productModel->create($data);
 
@@ -80,21 +80,20 @@ class ProductController
     public function update(int $productId = null): void
     {
         try {
-            $data = [
-                'name'              => $_POST['name'],
-                'price'             => $_POST['price'],
-                'availability_date' => $_POST['availability_date'] ?? null,
-                'description'       => $_POST['description'],
-                'image_path'        => $_POST['image_path'] ?? null,
-                'in_stock'          => $_POST['in_stock'],
-            ];
+            $this->productValidation();
+
+            if (! empty($this->errors)) {
+                throw new \Exception(implode(', ', $this->errors));
+            }
+
+            $data = $this->requestProductFields();
 
             $this->productModel->update($productId, $data);
 
             http_response_code(200);
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
             http_response_code(400);
+            echo $e->getMessage();
         }
     }
 
@@ -105,8 +104,8 @@ class ProductController
 
             http_response_code(200);
         } catch (\Exception $e) {
-            var_dump($e->getMessage());
             http_response_code(400);
+            echo $e->getMessage();
         }
     }
 }

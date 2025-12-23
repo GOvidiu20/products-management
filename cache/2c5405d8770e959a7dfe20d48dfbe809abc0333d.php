@@ -43,12 +43,14 @@
         <tbody>
         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
-                <td class="image-link-cell">
-                    <img
-                        src="/products/<?php echo e($product['image_path'] ?? 'default.jpg'); ?>"
-                        alt="Product Image"
-                        style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
-                    >
+                <td>
+                    <div class="table-image">
+                        <img
+                            src="/products/<?php echo e($product['image_path'] ?? 'default.jpg'); ?>"
+                            alt="Product Image"
+                            style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
+                        >
+                    </div>
                     <a href=<?php echo e("/". $product['id'] . "/change"); ?>><?php echo e($product['name']); ?>
 
                 </td>

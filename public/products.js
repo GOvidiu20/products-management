@@ -34,7 +34,7 @@ function save(productId) {
         method: 'POST',
         body: formData
     })
-        .then(data => {
+        .then(async data => {
             if (data.ok) {
                 Toastify({
                     text: "Successfully updated product!",
@@ -46,8 +46,9 @@ function save(productId) {
 
                 window.location.href = '/';
             } else {
+                const message = await data.text();
                 Toastify({
-                    text: "Failed updating product.",
+                    text: message,
                     duration: 3000,
                     gravity: "top",
                     position: "right",
@@ -93,7 +94,6 @@ function deleteProduct(productId) {
 
                         window.location.href = '/';
                     } else {
-
                         Toastify({
                             text: "Failed to delete product.",
                             duration: 3000,
@@ -104,8 +104,13 @@ function deleteProduct(productId) {
                     }
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred while deleting the product.');
+                    Toastify({
+                        text: error,
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        class: "error",
+                    }).showToast();
                 });
         }
     });
