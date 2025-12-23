@@ -69,6 +69,30 @@ class Product
         ]);
     }
 
+    public function update(int $productId, array $data): bool
+    {
+        $stmt = $this->db->prepare("
+            UPDATE products 
+            SET name = :name, 
+                price = :price, 
+                availability_date = :availability_date, 
+                description = :description, 
+                image_path = :image_path,
+                in_stock = :in_stock
+            WHERE id = :id
+        ");
+
+        return $stmt->execute([
+            ':name'              => $data['name'],
+            ':price'             => $data['price'],
+            ':availability_date' => $data['availability_date'],
+            ':description'       => $data['description'],
+            ':image_path'        => $data['image_path'],
+            ':in_stock'          => $data['in_stock'],
+            ':id'                => $productId,
+        ]);
+    }
+
     public function find(int $productId): ?array
     {
         $stmt = $this->db->prepare("SELECT * FROM products WHERE id = :id");
@@ -76,5 +100,12 @@ class Product
         $product = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $product ?: null;
+    }
+
+    public function delete(int $productId): bool
+    {
+        $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
+
+        return $stmt->execute([':id' => $productId]);
     }
 }

@@ -5,36 +5,36 @@ use App\Model\Product;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$parts = explode('/', trim($uri, '/'));
+$path = trim(
+    parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH),
+    '/'
+);
 
 $productModel = new Product();
 $controller = new ProductController($productModel);
 
-switch ($parts[0]) {
-    case '':
-        $controller->index();
-        break;
+$routes = [
+    '#^$#' => fn() => $controller->index(),
 
-    case 'change':
-        $id = isset($parts[1]) ? (int) $parts[1] : null;
+    '#^create#' => fn() => $controller->change(),
 
-        $controller->change($id);
-        break;
+    '#^(\d+)/change$#' => fn($id) => $controller->change((int) $id),
 
-    case 'store':
-        $controller->store();
-        break;
+    '#^store$#' => fn() => $controller->store(),
 
-    case 'update':
-        $controller->update();
-        break;
+    '#^(\d+)/update$#' => fn($id) => $controller->update((int) $id),
 
-    case 'delete':
-        $controller->delete();
-        break;
+    '#^(\d+)/delete$#' => fn($id) => $controller->delete((int) $id),
+];
 
-        default:
-        http_response_code(404);
-        echo "Page not found";
+foreach ($routes as $pattern => $handler) {
+    if (preg_match($pattern, $path, $matches)) {
+        array_shift($matches);
+       $handler(...$matches);
+
+        exit;
+    }
 }
+
+http_response_code(404);
+echo 'Page not found';

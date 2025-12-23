@@ -19,15 +19,15 @@
         </div>
 
         <input
-                type="search"
-                id="search"
-                name="search"
-                value="{{ $search }}"
-                placeholder="Search products..."
-                oninput="updateSearch(this.value)"
+            type="search"
+            id="search"
+            name="search"
+            value="{{ $search }}"
+            placeholder="Search products..."
+            oninput="updateSearch(this.value)"
         >
 
-        <a href="/change">Add Product</a>
+        <a href="/create">Add Product</a>
     </div>
 @endsection
 
@@ -43,7 +43,14 @@
         <tbody>
         @foreach ($products as $product)
             <tr>
-                <td>{{ $product['name'] }}</td>
+                <td class="image-link-cell">
+                    <img
+                        src="/products/{{ $product['image_path'] ?? 'default.jpg' }}"
+                        alt="Product Image"
+                        style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
+                    >
+                    <a href={{"/". $product['id'] . "/change"}}>{{ $product['name'] }}
+                </td>
                 <td>{{ $product['description'] }}</td>
                 <td>{{ $product['price'] }}</td>
                 <td>{{ $product['availability_date'] }}</td>

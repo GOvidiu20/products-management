@@ -16,7 +16,7 @@ class ProductController
         $this->productModel = $productModel;
     }
 
-    public function index()
+    public function index(): void
     {
         $page    = isset($_GET['page']) ? (int)$_GET['page'] : 1;
         $search  = isset($_GET['search']) ? (string)$_GET['search'] : '';
@@ -33,15 +33,14 @@ class ProductController
         );
 
         echo $blade->makeView('products.list-page', [
-            'products' => $products,
-            'page' => $page,
+            'products'   => $products,
+            'page'       => $page,
             'totalPages' => $totalPages,
-            'title' => 'Products List',
-            'search' => $search,
+            'search'     => $search,
         ]);
     }
 
-    public function change(int $productId = null)
+    public function change(int $productId = null): void
     {
         if ($productId) {
             $product = $this->productModel->find($productId);
@@ -53,20 +52,61 @@ class ProductController
         );
 
         echo $blade->makeView('products.change-page', [
-            'title' => 'Create Product',
             'product' => $productId ? $product : null,
         ]);
     }
 
-    public function store() {
-        $data = [
-            'name'              => $_POST['name'] ?? '',
-            'price'             => $_POST['price'] ?? 0,
-            'availability_date' => $_POST['availability_date'] ?? null,
-            'description'       => $_POST['description'] ?? '',
-            'image_path'        => $_POST['image_url'] ?? '',
-        ];
+    public function store(): void
+    {
+        try {
+            $data = [
+                'name'              => $_POST['name'],
+                'price'             => $_POST['price'],
+                'availability_date' => $_POST['availability_date'] ?? null,
+                'description'       => $_POST['description'],
+                'image_path'        => $_POST['image_path'] ?? null,
+                'in_stock'          => $_POST['in_stock'],
+            ];
 
-        return $this->productModel->create($data);
+            $this->productModel->create($data);
+
+            http_response_code(200);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            http_response_code(400);
+        }
+    }
+
+    public function update(int $productId = null): void
+    {
+        try {
+            $data = [
+                'name'              => $_POST['name'],
+                'price'             => $_POST['price'],
+                'availability_date' => $_POST['availability_date'] ?? null,
+                'description'       => $_POST['description'],
+                'image_path'        => $_POST['image_path'] ?? null,
+                'in_stock'          => $_POST['in_stock'],
+            ];
+
+            $this->productModel->update($productId, $data);
+
+            http_response_code(200);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            http_response_code(400);
+        }
+    }
+
+    public function delete(int $productId): void
+    {
+        try {
+            $this->productModel->delete($productId);
+
+            http_response_code(200);
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            http_response_code(400);
+        }
     }
 }

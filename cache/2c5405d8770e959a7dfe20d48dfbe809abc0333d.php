@@ -19,15 +19,15 @@
         </div>
 
         <input
-                type="search"
-                id="search"
-                name="search"
-                value="<?php echo e($search); ?>"
-                placeholder="Search products..."
-                oninput="updateSearch(this.value)"
+            type="search"
+            id="search"
+            name="search"
+            value="<?php echo e($search); ?>"
+            placeholder="Search products..."
+            oninput="updateSearch(this.value)"
         >
 
-        <a href="/change">Add Product</a>
+        <a href="/create">Add Product</a>
     </div>
 <?php $__env->stopSection(); ?>
 
@@ -43,7 +43,15 @@
         <tbody>
         <?php $__currentLoopData = $products; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <tr>
-                <td><?php echo e($product['name']); ?></td>
+                <td class="image-link-cell">
+                    <img
+                        src="/products/<?php echo e($product['image_path'] ?? 'default.jpg'); ?>"
+                        alt="Product Image"
+                        style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
+                    >
+                    <a href=<?php echo e("/". $product['id'] . "/change"); ?>><?php echo e($product['name']); ?>
+
+                </td>
                 <td><?php echo e($product['description']); ?></td>
                 <td><?php echo e($product['price']); ?></td>
                 <td><?php echo e($product['availability_date']); ?></td>

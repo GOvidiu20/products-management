@@ -1,5 +1,5 @@
 body {
-    margin: 50px 0 150px;
+    margin-top: 50px;
     font-family: "Noto Sans", sans-serif;
 }
 
@@ -51,7 +51,7 @@ main {
 
 .table td {
     padding: 15px;
-    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
     height: 40px;
     text-align: center;
     vertical-align:middle;
@@ -59,19 +59,23 @@ main {
     font-size: 18px;
 }
 
-.table-wrapper table td:first-child {
+.table tr td:first-child {
     display: grid;
-    grid-template-columns: 25px 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 10px;
-    text-align: left;
 }
 
 .container {
-    width: 80%;
-    margin: 10px 10px;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .form-group {
@@ -79,16 +83,59 @@ main {
     flex-direction: column;
 }
 
-.container div:last-child {
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+}
+
+.full-width {
     grid-column: span 2;
+}
+
+.required::after {
+    content: " *";
+    color: red;
 }
 
 @media (max-width: 768px) {
     .container {
         grid-template-columns: 1fr;
+        padding: 1.5rem;
     }
 
-    .container div:last-child {
+    .full-width {
         grid-column: span 1;
     }
 }

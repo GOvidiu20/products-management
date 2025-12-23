@@ -2,69 +2,57 @@
 
 @section('configurations')
     <div class="navbar-conf">
-        <button onclick="save()">
+        <button onclick="save({{ $product['id'] ?? null }})">
             {{
                 $product ? 'Save Changes' : 'Create Product'
             }}
         </button>
+        @if($product)
+            <button onclick="deleteProduct({{ $product['id'] }})">Delete Product</button>
+        @endif
     </div>
 @endsection
 
 @section('content')
-   <div class="container">
-       <div class="form-group">
-           <label>Name</label>
-           <input type="text" id="name" value="{{ $product->name }}" required>
-       </div>
-       <div class="form-group">
-           <label>Price</label>
-           <input type="number" id="price" step="0.01" value="{{ $product->price }}" required>
-       </div>
-       <div class="form-group">
-           <label>Availability date</label>
-           <input type="date" id="availability_date" value="{{ $product ? $product->availability_date->format('Y-m-d') : null }}" required>
-       </div>
-       <div class="form-group">
-           <label>Image</label>
-           <input type="file" alt="" id="image">
-       </div>
-       <div class="form-group">
-           <label>Description</label>
-           <textarea id="description" value="{{ $product->description }}"></textarea>
-       </div>
-   </div>
+    <div class="container">
+        <div class="form-group">
+            <label for="name" class="required">Name</label>
+            <input type="text" id="name" value="{{ $product['name'] ?? '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="required">Price</label>
+            <input type="number" id="price" step="0.01" value="{{ $product['price'] ?? '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="availability_date">Availability date</label>
+            <input type="date" id="availability_date" value="{{ $product['availability_date'] ?? null }}">
+        </div>
+
+        <div class="form-group">
+            <label for="image">Image</label>
+            @if(!empty($product['image_path']))
+                <div class="image-preview">
+                    <img src="/products/{{ $product['image_path'] }}" alt="Product Image" style="max-width:150px; display:block; margin-bottom:10px;">
+                </div>
+            @endif
+
+            <input type="file" id="image" accept="image/*">
+        </div>
+
+        <div class="form-group checkbox-group">
+            <label for="in_stock">In Stock</label>
+            <input type="checkbox"
+                   id="in_stock"
+                    {{ !empty($product['in_stock']) ? 'checked' : '' }}>
+        </div>
+
+        <div class="form-group full-width">
+            <label for="description">Description</label>
+            <textarea id="description">{{ $product['description'] ?? '' }}</textarea>
+        </div>
+    </div>
 @endsection
 
-<script>
-    function save() {
-        const formData = new FormData();
-
-        formData.append('name', document.getElementById('name').value);
-        formData.append('price', document.getElementById('price').value);
-        formData.append('availability_date', document.getElementById('availability_date').value);
-        formData.append('description', document.getElementById('description').value);
-
-        const imageInput = document.getElementById('image');
-        if (imageInput.files.length > 0) {
-            formData.append('image_path', imageInput.files[0]);
-        }
-
-        fetch('/store', {
-            method: 'POST',
-            body: formData
-        })
-            .then(data => {
-                if (data.ok) {
-                    alert('Product saved successfully!');
-
-                    window.location.href = '/';
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while saving the product.');
-            });
-    }
-</script>
+<script src="/products.js"></script>
