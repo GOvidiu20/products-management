@@ -3,8 +3,12 @@
 use App\Controllers\ProductController;
 use App\Helpers\RequestHelper;
 use App\Model\Product;
+use Dotenv\Dotenv;
 
 require __DIR__ . '/../vendor/autoload.php';
+
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
+$dotenv->load();
 
 $path = trim(
     parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH),
