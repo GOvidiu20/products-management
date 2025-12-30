@@ -4,17 +4,17 @@
     <div class="navbar-conf">
         <div>
             @if($page > 1)
-                <a href="?page={{ $page - 1 }}"><button>Previous</button></a>
+                <a href="?page={{ $page - 1 }}{{ $search ? '&search=' . $search : '' }}"><button> &lt; </button></a>
             @else
-                <button disabled>Previous</button>
+                <button disabled> < </button>
             @endif
 
-            <span>Page {{ $page }} of {{ $totalPages }}</span>
+            <span>{{ $page }} of {{ $totalPages }}</span>
 
             @if($page < $totalPages)
-                <a href="?page={{ $page + 1 }}"><button>Next</button></a>
+                    <a href="?page={{ $page + 1 }}{{ $search ? '&search=' . $search : '' }}"><button> &gt; </button></a>
             @else
-                <button disabled>Next</button>
+                <button disabled> > </button>
             @endif
         </div>
 
@@ -22,9 +22,10 @@
             type="search"
             id="search"
             name="search"
+            class="search"
             value="{{ $search }}"
             placeholder="Search products..."
-            oninput="updateSearch(this.value)"
+            onblur="updateSearch(this.value)"
         >
 
         <a href="/create">Add Product</a>
@@ -46,14 +47,14 @@
                 <td>
                     <div class="table-image">
                         <img
-                            src="/products/{{ $product['image_path'] ?? 'default.jpg' }}"
+                            src="/uploads/{{ $product['image_path'] ?? 'default.jpg' }}"
                             alt="Product Image"
-                            style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
+                            class="table-image-img"
                         >
                     </div>
                     <a href={{"/". $product['id'] . "/change"}}>{{ $product['name'] }}
                 </td>
-                <td>{{ $product['description'] }}</td>
+                <td class="col-description">{{ $product['description'] }}</td>
                 <td>{{ $product['price'] }}</td>
                 <td>{{ $product['availability_date'] }}</td>
                 <td>{{ $product['in_stock'] ? 'Yes' : 'No' }}</td>

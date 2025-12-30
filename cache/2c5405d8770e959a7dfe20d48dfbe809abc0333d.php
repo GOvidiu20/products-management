@@ -4,17 +4,17 @@
     <div class="navbar-conf">
         <div>
             <?php if($page > 1): ?>
-                <a href="?page=<?php echo e($page - 1); ?>"><button>Previous</button></a>
+                <a href="?page=<?php echo e($page - 1); ?><?php echo e($search ? '&search=' . $search : ''); ?>"><button> &lt; </button></a>
             <?php else: ?>
-                <button disabled>Previous</button>
+                <button disabled> < </button>
             <?php endif; ?>
 
-            <span>Page <?php echo e($page); ?> of <?php echo e($totalPages); ?></span>
+            <span><?php echo e($page); ?> of <?php echo e($totalPages); ?></span>
 
             <?php if($page < $totalPages): ?>
-                <a href="?page=<?php echo e($page + 1); ?>"><button>Next</button></a>
+                    <a href="?page=<?php echo e($page + 1); ?><?php echo e($search ? '&search=' . $search : ''); ?>"><button> &gt; </button></a>
             <?php else: ?>
-                <button disabled>Next</button>
+                <button disabled> > </button>
             <?php endif; ?>
         </div>
 
@@ -22,9 +22,10 @@
             type="search"
             id="search"
             name="search"
+            class="search"
             value="<?php echo e($search); ?>"
             placeholder="Search products..."
-            oninput="updateSearch(this.value)"
+            onblur="updateSearch(this.value)"
         >
 
         <a href="/create">Add Product</a>
@@ -48,13 +49,13 @@
                         <img
                             src="/products/<?php echo e($product['image_path'] ?? 'default.jpg'); ?>"
                             alt="Product Image"
-                            style="width:50px; height:50px; object-fit:cover; margin-right:10px; vertical-align:middle"
+                            class="table-image-img"
                         >
                     </div>
                     <a href=<?php echo e("/". $product['id'] . "/change"); ?>><?php echo e($product['name']); ?>
 
                 </td>
-                <td><?php echo e($product['description']); ?></td>
+                <td class="col-description"><?php echo e($product['description']); ?></td>
                 <td><?php echo e($product['price']); ?></td>
                 <td><?php echo e($product['availability_date']); ?></td>
                 <td><?php echo e($product['in_stock'] ? 'Yes' : 'No'); ?></td>

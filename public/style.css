@@ -40,6 +40,11 @@ main {
     width: 100%;
 }
 
+.table th {
+    font-weight: 400;
+    font-size: 25px;
+}
+
 .header {
     font-weight: 500;
     background-color: #333;
@@ -73,6 +78,14 @@ main {
     justify-content: end;
 }
 
+.table-image-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
 .container {
     max-width: 900px;
     margin: 2rem auto;
@@ -80,7 +93,6 @@ main {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
-
     background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
@@ -137,13 +149,79 @@ main {
     color: red;
 }
 
+@media (max-width: 1024px) {
+    .col-description {
+        max-width: 10ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
 @media (max-width: 768px) {
+    .navbar {
+        display: flex;
+        justify-content: end;
+    }
+    .title {
+        display: none;
+    }
+    .search {
+        width: 30%;
+    }
     .container {
+        max-width: 100%;
         grid-template-columns: 1fr;
         padding: 1.5rem;
     }
 
     .full-width {
         grid-column: span 1;
+    }
+
+    .table {
+        gap: 4px;
+        background-color: #fff;
+        padding: 4px;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .table th {
+        font-weight: 200;
+        font-size: 10px;
+    }
+
+    .table td {
+        padding: 5px;
+        border-top: 1px solid #ddd;
+        height: 20px;
+        text-align: center;
+        vertical-align:middle;
+        font-weight: 100;
+        font-size: 12px;
+    }
+    .table tr td:first-child {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 2px;
+        text-align: left;
+        align-items: center;
+    }
+    .table-image-img {
+        width: 20px;
+        height: 20px;
+        object-fit: cover;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .header {
+        font-weight: 200;
+        background-color: #333;
+        color: white;
+        padding: 5px 5px;
+        height: 20px;
+        border-radius: 4px;
     }
 }

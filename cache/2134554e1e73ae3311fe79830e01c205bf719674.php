@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo e($title ?? 'Products Management'); ?></title>
     <link rel="stylesheet" href="/style.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 </head>
 <body>
 <header class="navbar">
-    <h1>Products Management</h1>
+    <h3 class="title">Products Management</h3>
     <div>
         <?php echo $__env->yieldContent('configurations'); ?>
     </div>

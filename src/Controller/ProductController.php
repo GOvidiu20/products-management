@@ -25,7 +25,7 @@ class ProductController
 
         $products = $this->productModel->all($search, $page, $perPage);
 
-        $totalProducts = $this->productModel->count();
+        $totalProducts = $this->productModel->count($search);
         $totalPages    = ceil($totalProducts / $perPage);
 
         $blade = GlobalBladeService::getInstance(
