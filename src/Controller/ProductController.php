@@ -29,7 +29,7 @@ class ProductController
         $totalPages    = ceil($totalProducts / $perPage);
 
         $blade = GlobalBladeService::getInstance(
-            [__DIR__ . '/../views'],
+            [__DIR__ . '/../Views'],
             __DIR__ . '/../../cache'
         );
 
@@ -48,7 +48,7 @@ class ProductController
         }
 
         $blade = GlobalBladeService::getInstance(
-            [__DIR__ . '/../views'],
+            [__DIR__ . '/../Views'],
             __DIR__ . '/../../cache'
         );
 
